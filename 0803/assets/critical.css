@@ -72,11 +72,50 @@ p:empty {
 }
 
 /** Theme styles below */
+:root {
+  --mellow-font-body: 'Archivo', Arial, Helvetica, sans-serif;
+  --mellow-font-display: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--mellow-font-body);
   background-color: #fff;
   color: #302d2b;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.018em;
+}
+
+/* A two-voice type system: precise grotesk text with condensed fashion headlines. */
+.mellow-header,
+.mellow-footer,
+.mellow-collection,
+.mellow-product {
+  font-family: var(--mellow-font-body) !important;
+}
+
+.mellow-collection h1,
+.mellow-product h1,
+.mellow-product h2,
+.mellow-product h3,
+.mellow-footer h2,
+.mellow-header__nav,
+.mellow-collection__toolbar button,
+.mellow-product__add,
+.mellow-product summary,
+.mellow-product__related-info > div,
+.mellow-product__related-info button {
+  font-family: var(--mellow-font-display) !important;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+}
+
+.mellow-header__nav {
+  font-size: 19px !important;
+  letter-spacing: 0.01em;
+}
+
+.mellow-collection__toolbar button,
+.mellow-product summary {
+  letter-spacing: 0.07em;
 }
 
 /** Section layout utilities */
