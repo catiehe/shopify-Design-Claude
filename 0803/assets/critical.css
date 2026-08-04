@@ -118,6 +118,71 @@ body {
   letter-spacing: 0.07em;
 }
 
+/* Keep reviews useful but deliberately compact: it supports the product, not the other way around. */
+.mellow-product__reviews {
+  padding: 46px max(22px, 7vw) !important;
+}
+
+.mellow-product__reviews h2 {
+  font-size: clamp(28px, 2.2vw, 34px) !important;
+}
+
+.mellow-product__rating {
+  gap: 8px 30px !important;
+  margin: 28px 0 32px !important;
+}
+
+.mellow-product__rating strong {
+  font-size: 23px !important;
+}
+
+.mellow-product__rating > span,
+.mellow-product__fit span {
+  font-size: 12px !important;
+}
+
+.mellow-product__fit::before {
+  background: #e8e5e2 !important;
+  height: 3px !important;
+}
+
+.mellow-product__fit i {
+  height: 8px !important;
+  width: 8px !important;
+}
+
+.mellow-product__fit b {
+  height: 13px !important;
+  margin-top: -5px !important;
+  width: 13px !important;
+}
+
+.mellow-product__reviews article {
+  border-color: #e9e6e3 !important;
+  grid-template-columns: .7fr 2fr !important;
+  padding: 25px 0 !important;
+}
+
+.mellow-product__reviews article strong {
+  font-size: 18px !important;
+}
+
+.mellow-product__reviews article h3 {
+  font-size: 21px !important;
+  margin: 10px 0 !important;
+}
+
+@media (max-width: 900px) {
+  .mellow-product__reviews {
+    padding: 40px 24px !important;
+  }
+
+  .mellow-product__reviews article {
+    gap: 15px !important;
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /** Section layout utilities */
 
 /**
