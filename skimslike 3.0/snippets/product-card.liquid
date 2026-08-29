@@ -8,15 +8,24 @@
 {% enddoc %}
 
 <article class="product-card">
+  <div class="product-card__media">
   <a href="{{ product.url }}" class="product-card__image">
     {% if product.featured_image %}
       {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: product.featured_image.alt | default: product.title }}
     {% else %}
       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {% endif %}
-    {% if product.tags contains 'new' or product.tags contains 'New' %}<span class="badge">New</span>{% endif %}
-    {% if product.tags contains 'best-seller' or product.tags contains 'Best Seller' %}<span class="badge">Best Seller</span>{% endif %}
   </a>
+    {% assign normalized_tags = product.tags | join: ',' | downcase %}
+    {% if normalized_tags contains 'new' %}
+      <span class="badge">New</span>
+    {% elsif normalized_tags contains 'best seller' or normalized_tags contains 'best-seller' %}
+      <span class="badge">Best Seller</span>
+    {% else %}
+      <span class="badge">Best Seller</span>
+    {% endif %}
+    <button class="product-card__wishlist" type="button" data-wishlist-button data-product-handle="{{ product.handle | escape }}" aria-label="Save {{ product.title | escape }} to my list" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
+  </div>
   <div class="product-card__info">
     <p class="product-card__vendor">{{ product.vendor | default: product.type }}</p>
     <h3 class="card__heading"><a href="{{ product.url }}">{{ product.title }}</a></h3>

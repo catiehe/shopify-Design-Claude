@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "fallback_subtitle": "Considered Merino wool essentials designed for women and everyday life.",
+        "products_per_page": 16
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,209 @@
+<footer class="site-footer">
+  <div class="footer-statement">{{ section.settings.statement }}</div>
+  <div class="page-width footer-grid">
+    <nav aria-label="{{ section.settings.help_heading | escape }}">
+      <h3>{{ section.settings.help_heading | default: 'Help' }}</h3>
+      {% for link in section.settings.help_menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% else %}
+        <a href="/pages/returns">Return Center</a><a href="/pages/returns">Order & Return Tracking</a><a href="/pages/size-guide">Size Guides</a><a href="/pages/ordering">Ordering</a><a href="/pages/shipping">Shipping</a><a href="/pages/faq">FAQs</a><a href="/pages/contact">Contact Us</a>
+      {% endfor %}
+    </nav>
+    <div class="footer-newsletter">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.text }}</p>
+      {% form 'customer', id: 'footer-email-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="visually-hidden" for="FooterEmail-{{ section.id }}">Email Address (required)</label>
+        <input id="FooterEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="Email Address (required)" autocomplete="email" required>
+        <label class="footer-consent">
+          <input type="checkbox" name="contact[marketing_consent]" value="yes" required>
+          <span>I consent to receive marketing and promotional emails from Mello Wool, and to Mello Wool’s <a href="/policies/privacy-policy">Privacy Policy</a> and <a href="/policies/terms-of-service">Terms and Conditions</a>.</span>
+        </label>
+        <button type="submit">Sign Up to Newsletter</button>
+        {% if form.posted_successfully? %}<p class="footer-message">Thanks for subscribing.</p>{% endif %}
+        {{ form.errors | default_errors }}
+      {% endform %}
+    </div>
+    <nav aria-label="{{ section.settings.more_heading | escape }}">
+      <h3>{{ section.settings.more_heading | default: 'More' }}</h3>
+      {% for link in section.settings.more_menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% else %}
+        <a href="/pages/about">About</a><a href="/pages/rewards">Rewards</a><a href="/products/gift-card">E-Gift Card</a><a href="/pages/stockists">Store Locator</a><a href="/blogs/news">Blog</a>
+      {% endfor %}
+    </nav>
+  </div>
+</footer>
+
+{% style %}
+  #shopify-section-{{ section.id }} .footer-statement {
+    font-family: var(--font-body-family);
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 300;
+    letter-spacing: .01em;
+    line-height: 1.5;
+    max-width: 760px;
+    padding-top: 58px;
+    padding-bottom: 68px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-grid {
+    display: grid !important;
+    grid-template-columns: minmax(220px, 1fr) minmax(500px, 1.5fr) minmax(220px, 1fr) !important;
+    align-items: start;
+    gap: 48px !important;
+    max-width: 1500px;
+    padding-top: 92px;
+    padding-bottom: 110px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-grid > * {
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .footer-grid > nav {
+    align-items: center;
+    gap: 22px;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .footer-grid h3 {
+    font-family: var(--font-body-family);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: .24em;
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-grid nav a {
+    font-family: var(--font-body-family);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter h2 {
+    font-family: var(--font-body-family);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter > p {
+    font-family: var(--font-body-family);
+    max-width: none;
+    margin: 28px auto 0;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.4;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 380px;
+    margin: 26px auto 0;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter input,
+  #shopify-section-{{ section.id }} .footer-newsletter button {
+    min-height: 52px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter input {
+    font-size: 13px;
+    padding: 0 18px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter .footer-consent {
+    align-items: flex-start;
+    display: flex;
+    font-size: 9px;
+    gap: 9px;
+    line-height: 1.5;
+    max-width: 520px;
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter .footer-consent input {
+    appearance: none;
+    background: #fff;
+    border: 1px solid #888;
+    flex: 0 0 18px;
+    height: 18px;
+    min-height: 18px;
+    padding: 0;
+    width: 18px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter .footer-consent input:checked {
+    background: var(--ink);
+    box-shadow: inset 0 0 0 4px #fff;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter .footer-consent a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter button {
+    align-self: center;
+    font-family: var(--font-body-family);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: .04em;
+    line-height: 1;
+    min-height: 44px;
+    padding: 12px 25px;
+    width: auto;
+  }
+
+  #shopify-section-{{ section.id }} .footer-newsletter small {
+    max-width: 600px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  @media screen and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .footer-grid {
+      grid-template-columns: minmax(120px, 1fr) minmax(300px, 1.5fr) minmax(120px, 1fr) !important;
+      gap: 16px !important;
+      padding-right: 12px;
+      padding-left: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .footer-grid h3 { font-size: 18px; }
+    #shopify-section-{{ section.id }} .footer-grid nav a { font-size: 12px; }
+    #shopify-section-{{ section.id }} .footer-newsletter h2 { font-size: 17px; }
+    #shopify-section-{{ section.id }} .footer-newsletter > p { font-size: 10px; }
+    #shopify-section-{{ section.id }} .footer-newsletter > form > input[type="email"] { min-height: 48px; }
+    #shopify-section-{{ section.id }} .footer-newsletter button { min-height: 42px; width: auto; }
+    #shopify-section-{{ section.id }} .footer-newsletter .footer-consent { font-size: 8px; }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "statement", "label": "Brand statement", "default": "A fabric-led brand creating better Merino Wool essentials for everyday life." },
+    { "type": "text", "id": "help_heading", "label": "Help heading", "default": "Help" },
+    { "type": "link_list", "id": "help_menu", "label": "Help menu" },
+    { "type": "text", "id": "heading", "label": "Newsletter heading", "default": "Get 10% off your first order" },
+    { "type": "text", "id": "text", "label": "Newsletter text", "default": "Sign up for emails and texts to get 10% off your first order. Terms apply." },
+    { "type": "text", "id": "more_heading", "label": "More heading", "default": "More" },
+    { "type": "link_list", "id": "more_menu", "label": "More menu" }
+  ]
+}
+{% endschema %}

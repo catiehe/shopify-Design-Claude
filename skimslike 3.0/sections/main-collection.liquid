@@ -1,0 +1,61 @@
+<section class="collection-template collection-page">
+  <header class="page-width collection-heading">
+    <h1>{{ collection.title }}</h1>
+    <div class="collection-subtitle">{% if collection.description != blank %}{{ collection.description }}{% else %}<p>{{ section.settings.fallback_subtitle }}</p>{% endif %}</div>
+    <p class="breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span>{{ collection.title }}</p>
+  </header>
+  <nav class="collection-filters" aria-label="Collection filters">
+    <button type="button">Sort</button>
+    {% assign filter_names = 'Gender,Size,Band,Cup,Type,Color,Collection,Material,Sleeve length,Inseam' | split: ',' %}
+    {% for filter_name in filter_names %}<button type="button">{{ filter_name }} <span aria-hidden="true">⌄</span></button>{% endfor %}
+  </nav>
+  <div class="page-width product-grid">{% paginate collection.products by section.settings.products_per_page %}{% for product in collection.products %}{% render 'product-card', product: product %}{% else %}<p>Add products to this collection in Shopify Admin.</p>{% endfor %}{% endpaginate %}</div>
+  <div class="collection-load-more">
+    <a class="collection-load-more__button" href="{{ collection.url }}?page=2">View More Products</a>
+  </div>
+
+  <section class="recently-viewed" aria-labelledby="RecentlyViewedHeading-{{ section.id }}">
+    <div class="recently-viewed__header">
+      <h2 id="RecentlyViewedHeading-{{ section.id }}">Recently Viewed</h2>
+      <div class="recently-viewed__controls" aria-label="Recently viewed pages">
+        <button type="button" data-recently-previous aria-label="Previous products">‹</button>
+        <span>1&nbsp;&nbsp;/&nbsp;&nbsp;2</span>
+        <button type="button" data-recently-next aria-label="Next products">›</button>
+      </div>
+    </div>
+    <div class="recently-viewed__track" data-recently-track>
+      {% for product in collection.products limit: 5 %}{% render 'product-card', product: product %}{% endfor %}
+    </div>
+  </section>
+</section>
+{% style %}
+  #shopify-section-{{ section.id }} .collection-heading{max-width:none;padding:68px 47px 48px}
+  #shopify-section-{{ section.id }} .collection-heading h1{font-family:var(--font-heading-family);font-size:clamp(58px,5.6vw,86px);font-weight:800;letter-spacing:-.025em;line-height:.92}
+  #shopify-section-{{ section.id }} .collection-subtitle{color:#444;font-size:24px;line-height:1.35;margin:30px 0 0}
+  #shopify-section-{{ section.id }} .collection-subtitle p{margin:0}
+  #shopify-section-{{ section.id }} .breadcrumb{align-items:center;color:var(--ink);display:flex;font-size:20px;gap:6px;margin:16px 0 0}
+  #shopify-section-{{ section.id }} .breadcrumb a{color:#929292}
+  #shopify-section-{{ section.id }} .collection-filters{align-items:center;border-bottom:1px solid var(--line);display:flex;gap:38px;min-height:74px;overflow-x:auto;padding:0 47px;scrollbar-width:none;white-space:nowrap}
+  #shopify-section-{{ section.id }} .collection-filters::-webkit-scrollbar{display:none}
+  #shopify-section-{{ section.id }} .collection-filters button{align-items:center;background:transparent;border:0;color:var(--ink);cursor:pointer;display:inline-flex;flex:0 0 auto;font-family:var(--font-body-family);font-size:16px;font-weight:500;gap:8px;letter-spacing:.16em;padding:0;text-transform:uppercase}
+  #shopify-section-{{ section.id }} .collection-filters button span{font-size:17px;letter-spacing:0;transform:translateY(-2px)}
+  #shopify-section-{{ section.id }} .collection-load-more{display:flex;justify-content:center;padding:64px 20px 270px}
+  #shopify-section-{{ section.id }} .collection-load-more__button{background:#2c2826;color:#fff;font-size:16px;font-weight:600;letter-spacing:.12em;padding:25px 40px;text-transform:uppercase}
+  #shopify-section-{{ section.id }} .recently-viewed{border-top:0}
+  #shopify-section-{{ section.id }} .recently-viewed__header{align-items:center;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto 1fr;min-height:108px;padding:0 30px}
+  #shopify-section-{{ section.id }} .recently-viewed__header h2{font-family:var(--font-heading-family);font-size:28px;font-weight:600;grid-column:2;letter-spacing:.03em;margin:0;text-align:center}
+  #shopify-section-{{ section.id }} .recently-viewed__controls{align-items:center;display:flex;font-size:16px;gap:28px;grid-column:3;justify-self:end}
+  #shopify-section-{{ section.id }} .recently-viewed__controls button{background:transparent;border:0;cursor:pointer;font-family:Arial,sans-serif;font-size:52px;font-weight:200;line-height:1;padding:0 6px}
+  #shopify-section-{{ section.id }} .recently-viewed__track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:hidden}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card{border-right:1px solid var(--line);min-width:0;padding:22px 22px 30px}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card:last-child{border-right:0}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card__image{aspect-ratio:1/1;background:#fff}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card__image img{object-fit:contain}
+  #shopify-section-{{ section.id }} .recently-viewed__track .badge{background:#a87560;font-size:11px;left:0;padding:4px 7px;top:auto;bottom:-30px}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card__wishlist{background:#fff;border-radius:50%;box-shadow:0 2px 9px rgba(0,0,0,.12);right:0;top:auto;bottom:4px}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card__wishlist svg{width:18px}
+  #shopify-section-{{ section.id }} .recently-viewed__track .product-card__info{padding-top:42px}
+  @media(max-width:900px){#shopify-section-{{ section.id }} .collection-heading{padding:42px 20px 32px}#shopify-section-{{ section.id }} .collection-heading h1{font-size:54px}#shopify-section-{{ section.id }} .collection-subtitle{font-size:18px;margin-top:22px}#shopify-section-{{ section.id }} .breadcrumb{font-size:15px}#shopify-section-{{ section.id }} .collection-filters{gap:26px;padding:0 20px}#shopify-section-{{ section.id }} .collection-filters button{font-size:13px}}
+  @media(max-width:900px){#shopify-section-{{ section.id }} .collection-load-more{padding-bottom:140px}#shopify-section-{{ section.id }} .recently-viewed__header{display:flex;justify-content:space-between}#shopify-section-{{ section.id }} .recently-viewed__header h2{font-size:22px}#shopify-section-{{ section.id }} .recently-viewed__track{grid-template-columns:repeat(5,minmax(220px,1fr));overflow-x:auto}}
+{% endstyle %}
+{% schema %}{"name":"Main collection","settings":[{"type":"text","id":"fallback_subtitle","label":"Fallback subtitle","default":"The must-haves all your friends have been telling you about"},{"type":"range","id":"products_per_page","label":"Products per page","min":4,"max":48,"step":4,"default":16}]}{% endschema %}

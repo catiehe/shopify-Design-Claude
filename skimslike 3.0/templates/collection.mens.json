@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "fallback_subtitle": "Refined Merino wool layers and everyday essentials designed for men.",
+        "products_per_page": 16
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

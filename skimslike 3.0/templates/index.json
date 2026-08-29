@@ -12,19 +12,38 @@
     "hero": {
       "type": "home-hero",
       "settings": {
-        "heading": "Just dropped: new cotton jersey & cotton rib",
+        "heading": "Just dropped: Merino Wool daily essentials",
         "text": "Discover fresh shades, returning favorites, and more new arrivals",
         "link_label": "Shop now",
         "link": ""
       }
     },
-    "categories": {
+    "new_arrivals": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "New Arrivals",
+        "collection": "",
+        "products_to_show": 8
+      }
+    },
+    "brand_story": {
+      "type": "home-brand-split",
+      "settings": {
+        "image": "",
+        "eyebrow": "Naturally considered",
+        "heading": "Good Wool. Good Care.",
+        "text": "<p>Better natural fibres. Thoughtful care. Everyday pieces designed to stay in your wardrobe for longer.</p>",
+        "link_label": "About Merino",
+        "link": ""
+      }
+    },
+    "shop_collections": {
       "type": "home-category-grid",
       "blocks": {
         "clothing": {
           "type": "category",
           "settings": {
-            "heading": "Clothing",
+            "heading": "Women's",
             "image": "",
             "link": ""
           }
@@ -32,7 +51,7 @@
         "tees": {
           "type": "category",
           "settings": {
-            "heading": "Tees & tanks",
+            "heading": "Men's",
             "image": "",
             "link": ""
           }
@@ -40,7 +59,7 @@
         "lounge": {
           "type": "category",
           "settings": {
-            "heading": "Loungewear",
+            "heading": "Travel Essentials",
             "image": "",
             "link": ""
           }
@@ -48,7 +67,7 @@
         "pajamas": {
           "type": "category",
           "settings": {
-            "heading": "Pajamas",
+            "heading": "Workday Layers",
             "image": "",
             "link": ""
           }
@@ -65,6 +84,8 @@
   },
   "order": [
     "hero",
-    "categories"
+    "new_arrivals",
+    "brand_story",
+    "shop_collections"
   ]
 }

@@ -1,4 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const wishlistKey = 'skimslike-wishlist';
+  let wishlist = [];
+  try { wishlist = JSON.parse(localStorage.getItem(wishlistKey) || '[]'); } catch (error) { wishlist = []; }
+  document.querySelectorAll('[data-wishlist-button]').forEach((button) => {
+    const handle = button.dataset.productHandle;
+    const updateButton = () => button.setAttribute('aria-pressed', String(wishlist.includes(handle)));
+    updateButton();
+    button.addEventListener('click', () => {
+      wishlist = wishlist.includes(handle) ? wishlist.filter((item) => item !== handle) : [...wishlist, handle];
+      localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+      updateButton();
+    });
+  });
+
+  document.querySelectorAll('[data-recently-track]').forEach((track) => {
+    const section = track.closest('.recently-viewed');
+    const scrollTrack = (direction) => track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: 'smooth' });
+    section.querySelector('[data-recently-previous]')?.addEventListener('click', () => scrollTrack(-1));
+    section.querySelector('[data-recently-next]')?.addEventListener('click', () => scrollTrack(1));
+  });
+
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-menu]');
 
