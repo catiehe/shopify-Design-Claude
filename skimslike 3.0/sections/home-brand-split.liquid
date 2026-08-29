@@ -1,14 +1,14 @@
 <section class="brand-split">
   <div class="brand-split__image">
     {% if section.settings.image != blank %}
-      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1800', sizes: '(min-width: 800px) 50vw, 100vw', alt: section.settings.heading }}
+      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1800', sizes: '(min-width: 800px) 50vw, 100vw', alt: section.settings.heading_line_1 }}
     {% else %}
       {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {% endif %}
   </div>
   <div class="brand-split__content">
     <p>{{ section.settings.eyebrow }}</p>
-    <h2>{{ section.settings.heading }}</h2>
+    <h2><span>{{ section.settings.heading_line_1 }}</span><span>{{ section.settings.heading_line_2 }}</span></h2>
     <div>{{ section.settings.text }}</div>
     {% if section.settings.link_label != blank %}<a href="{{ section.settings.link | default: '/pages/about-merino' }}">{{ section.settings.link_label }} →</a>{% endif %}
   </div>
@@ -20,10 +20,11 @@
   #shopify-section-{{ section.id }} .brand-split__content{align-items:center;background:#ded6ca;display:flex;flex-direction:column;justify-content:center;padding:70px;text-align:center}
   #shopify-section-{{ section.id }} .brand-split__content>p{font-size:11px;font-weight:600;letter-spacing:.2em;margin:0 0 28px;text-transform:uppercase}
   #shopify-section-{{ section.id }} .brand-split__content h2{font-size:clamp(52px,6vw,92px);letter-spacing:-.025em;line-height:.9;margin:0;max-width:650px}
+  #shopify-section-{{ section.id }} .brand-split__content h2 span{display:block}
   #shopify-section-{{ section.id }} .brand-split__content div{font-size:16px;font-weight:300;line-height:1.65;margin:36px auto 32px;max-width:480px}
   #shopify-section-{{ section.id }} .brand-split__content a{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
   @media(max-width:800px){#shopify-section-{{ section.id }} .brand-split{grid-template-columns:1fr}#shopify-section-{{ section.id }} .brand-split__image{min-height:480px}#shopify-section-{{ section.id }} .brand-split__content{min-height:480px;padding:55px 22px}}
 {% endstyle %}
 {% schema %}
-{"name":"Brand split","settings":[{"type":"image_picker","id":"image","label":"Large image"},{"type":"text","id":"eyebrow","label":"Small heading","default":"Naturally considered"},{"type":"text","id":"heading","label":"Heading","default":"Good Wool. Good Care."},{"type":"richtext","id":"text","label":"Text","default":"<p>Better natural fibres, thoughtful care and everyday pieces designed to stay in your wardrobe for longer.</p>"},{"type":"text","id":"link_label","label":"Link label","default":"About Merino"},{"type":"url","id":"link","label":"Link"}],"presets":[{"name":"Brand split"}]}
+{"name":"Brand split","settings":[{"type":"image_picker","id":"image","label":"Large image"},{"type":"text","id":"eyebrow","label":"Small heading","default":"Naturally considered"},{"type":"text","id":"heading_line_1","label":"Heading line 1","default":"Good Wool."},{"type":"text","id":"heading_line_2","label":"Heading line 2","default":"Good Care."},{"type":"richtext","id":"text","label":"Text","default":"<p>Better natural fibres, thoughtful care and everyday pieces designed to stay in your wardrobe for longer.</p>"},{"type":"text","id":"link_label","label":"Link label","default":"About Merino"},{"type":"url","id":"link","label":"Link"}],"presets":[{"name":"Brand split"}]}
 {% endschema %}

@@ -191,6 +191,58 @@
     #shopify-section-{{ section.id }} .footer-newsletter button { min-height: 42px; width: auto; }
     #shopify-section-{{ section.id }} .footer-newsletter .footer-consent { font-size: 8px; }
   }
+
+  @media screen and (max-width: 600px) {
+    #shopify-section-{{ section.id }} .footer-statement {
+      font-size: 18px;
+      padding: 42px 20px 48px;
+    }
+
+    #shopify-section-{{ section.id }} .footer-grid {
+      grid-template-columns: 1fr !important;
+      gap: 48px !important;
+      padding: 58px 20px 70px;
+    }
+
+    #shopify-section-{{ section.id }} .footer-grid > nav,
+    #shopify-section-{{ section.id }} .footer-grid > nav:first-child,
+    #shopify-section-{{ section.id }} .footer-grid > nav:last-child {
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .footer-newsletter {
+      margin: 0 auto;
+      max-width: 100%;
+      order: -1;
+      width: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .footer-newsletter h2 {
+      font-size: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .footer-newsletter > p {
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 16px;
+      white-space: normal;
+    }
+
+    #shopify-section-{{ section.id }} .footer-newsletter form {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .footer-newsletter > form > input[type="email"] {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .footer-newsletter .footer-consent {
+      font-size: 9px;
+      max-width: 100%;
+    }
+  }
 {% endstyle %}
 
 {% schema %}

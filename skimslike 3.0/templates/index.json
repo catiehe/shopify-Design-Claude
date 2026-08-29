@@ -12,7 +12,8 @@
     "hero": {
       "type": "home-hero",
       "settings": {
-        "heading": "Just dropped: Merino Wool daily essentials",
+        "heading_line_1": "Just dropped:",
+        "heading_line_2": "Merino Wool daily essentials",
         "text": "Discover fresh shades, returning favorites, and more new arrivals",
         "link_label": "Shop now",
         "link": ""
@@ -31,7 +32,8 @@
       "settings": {
         "image": "",
         "eyebrow": "Naturally considered",
-        "heading": "Good Wool. Good Care.",
+        "heading_line_1": "Good Wool.",
+        "heading_line_2": "Good Care.",
         "text": "<p>Better natural fibres. Thoughtful care. Everyday pieces designed to stay in your wardrobe for longer.</p>",
         "link_label": "About Merino",
         "link": ""
