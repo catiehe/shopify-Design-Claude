@@ -1,0 +1,37 @@
+{% assign source_collection = section.settings.collection %}
+{% if source_collection == blank %}{% assign source_collection = collections.all %}{% endif %}
+<section class="pdp-products{% if section.settings.style == 'complete' %} pdp-products--complete{% else %} pdp-products--similar{% endif %}">
+  <div class="pdp-products__heading">
+    <h2>{{ section.settings.heading }}</h2>
+    {% if section.settings.style == 'complete' %}<span>1 / 1</span>{% else %}<span>‹ &nbsp; 1 / 5 &nbsp; ›</span>{% endif %}
+  </div>
+  <div class="pdp-products__grid">
+    {% for recommendation in source_collection.products limit: section.settings.products_to_show %}
+      {% unless recommendation.id == product.id %}
+        {% if section.settings.style == 'complete' %}
+          <article class="look-card">
+            <a href="{{ recommendation.url }}" class="look-card__image">{% if recommendation.featured_image %}{{ recommendation.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: recommendation.featured_image.alt | default: recommendation.title }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}{% if forloop.first %}<span class="badge">Styled With</span>{% endif %}</a>
+            <div class="look-card__info"><p class="product-card__vendor">{{ recommendation.vendor }}</p><div class="look-card__title"><a href="{{ recommendation.url }}">{{ recommendation.title }}</a><strong>{{ recommendation.price | money }}</strong></div>{% form 'product', recommendation %}<label for="LookVariant-{{ section.id }}-{{ recommendation.id }}">Color&nbsp; <b>{{ recommendation.options_with_values.first.selected_value }}</b></label><select id="LookVariant-{{ section.id }}-{{ recommendation.id }}" name="id"><option value="">Select Size</option>{% for variant in recommendation.variants %}<option value="{{ variant.id }}"{% unless variant.available %} disabled{% endunless %}>{{ variant.title }}</option>{% endfor %}</select><button type="submit">Add to cart</button>{% endform %}</div>
+          </article>
+        {% else %}
+          {% render 'product-card', product: recommendation %}
+        {% endif %}
+      {% endunless %}
+    {% else %}
+      {% for i in (1..4) %}<article class="{% if section.settings.style == 'complete' %}look-card{% else %}product-card{% endif %}">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</article>{% endfor %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product complements",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Complete the look" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products", "min": 3, "max": 8, "step": 1, "default": 3 },
+    { "type": "select", "id": "style", "label": "Layout", "options": [{ "value": "complete", "label": "Complete the look" }, { "value": "similar", "label": "Similar styles" }], "default": "complete" }
+  ],
+  "presets": [{ "name": "Product complements" }]
+}
+{% endschema %}

@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "shipping": { "type": "accordion", "settings": { "heading": "Shipping & returns", "text": "<p>Add your shipping and returns policy here.</p>" } },
+        "size": { "type": "accordion", "settings": { "heading": "Size & fit", "text": "<p>Add sizing information here.</p>" } }
+      },
+      "block_order": ["shipping", "size"],
+      "settings": {}
+    },
+    "complete": {
+      "type": "product-complements",
+      "settings": { "heading": "Complete the look", "collection": "", "products_to_show": 3, "style": "complete" }
+    },
+    "similar": {
+      "type": "product-complements",
+      "settings": { "heading": "Similar styles", "collection": "", "products_to_show": 4, "style": "similar" }
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "one": { "type": "review", "settings": { "initials": "J.C", "title": "Comfy", "body": "Easily the most comfortable thong that I have ever worn.", "when": "2 months ago" } },
+        "two": { "type": "review", "settings": { "initials": "M.R", "title": "So comfy!", "body": "Fits perfectly true to size. The fabric is incredibly soft and smooth.", "when": "3 months ago" } },
+        "three": { "type": "review", "settings": { "initials": "A.T", "title": "Great fit", "body": "Love the seamless design. Barely noticeable under clothing.", "when": "1 month ago" } }
+      },
+      "block_order": ["one", "two", "three"],
+      "settings": {}
+    },
+    "more_color": {
+      "type": "product-complements",
+      "settings": { "heading": "More in this color", "collection": "", "products_to_show": 4, "style": "similar" }
+    }
+  },
+  "order": ["main", "complete", "similar", "reviews", "more_color"]
+}

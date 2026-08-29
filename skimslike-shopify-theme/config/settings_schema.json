@@ -1,0 +1,3 @@
+[
+  {"name":"Theme","settings":[{"type":"text","id":"brand_name","label":"Brand name","default":"MELLO WOOL"},{"type":"color","id":"accent","label":"Accent color","default":"#1a1a1a"}]}
+]

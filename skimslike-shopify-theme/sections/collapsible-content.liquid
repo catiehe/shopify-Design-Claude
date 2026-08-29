@@ -1,0 +1,31 @@
+<section class="faq-accordion page-width">
+  <h2>{{ section.settings.heading }}</h2>
+  <div class="faq-accordion__items">
+    {% for block in section.blocks %}
+      <details {{ block.shopify_attributes }}>
+        <summary>{{ block.settings.question }}<span aria-hidden="true">⌄</span></summary>
+        <div class="rte">{{ block.settings.answer }}</div>
+      </details>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ accordion",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Returns & exchanges" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Can I exchange my item?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Add your answer here.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FAQ accordion", "blocks": [{ "type": "question" }, { "type": "question" }, { "type": "question" }] }]
+}
+{% endschema %}
