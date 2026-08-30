@@ -1,0 +1,53 @@
+<section class="skim-collection">
+  <header class="skim-collection__header page-pad">
+    <h1>{{ collection.title | escape }}</h1>
+    {% if collection.description != blank %}<div class="skim-collection__description rte">{{ collection.description }}</div>{% endif %}
+    <nav class="skim-breadcrumb" aria-label="{{ 'accessibility.breadcrumb' | t }}"><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a><span aria-hidden="true">/</span><span>{{ collection.title | escape }}</span></nav>
+  </header>
+  <form class="skim-filters page-pad" method="get" data-filters-form>
+    <label for="SortBy">{{ 'collections.sort' | t }}</label>
+    <select id="SortBy" name="sort_by" data-sort-select>
+      {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+      {% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}
+    </select>
+    {% for filter in collection.filters %}
+      <details class="skim-filter">
+        <summary>{{ filter.label | escape }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}</summary>
+        <div class="skim-filter__panel">
+          {% case filter.type %}
+            {% when 'boolean', 'list' %}
+              {% for value in filter.values %}
+                <label><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}> <span>{{ value.label | escape }} ({{ value.count }})</span></label>
+              {% endfor %}
+            {% when 'price_range' %}
+              <label for="FilterMin">{{ 'collections.from' | t }}</label><input id="FilterMin" type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" min="0">
+              <label for="FilterMax">{{ 'collections.to' | t }}</label><input id="FilterMax" type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" min="0">
+          {% endcase %}
+          <button type="submit">{{ 'collections.apply' | t }}</button>
+        </div>
+      </details>
+    {% endfor %}
+    {% if collection.filters.size > 0 %}<a class="skim-filters__clear" href="{{ collection.url }}?sort_by={{ sort_by }}">{{ 'collections.clear' | t }}</a>{% endif %}
+  </form>
+  {% paginate collection.products by section.settings.products_per_page %}
+    <div class="skim-grid page-pad">
+      {% for product in collection.products %}
+        {% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_quick_add: section.settings.show_quick_add %}
+      {% else %}
+        <p class="skim-empty">{{ 'collections.empty' | t }}</p>
+      {% endfor %}
+    </div>
+    {% if paginate.pages > 1 %}<nav class="skim-pagination" aria-label="{{ 'accessibility.pagination' | t }}">{{ paginate | default_pagination }}</nav>{% endif %}
+  {% endpaginate %}
+</section>
+
+{% schema %}
+{
+  "name": "t:general.collection",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": true },
+    { "type": "checkbox", "id": "show_quick_add", "label": "Show quick add", "default": true }
+  ]
+}
+{% endschema %}

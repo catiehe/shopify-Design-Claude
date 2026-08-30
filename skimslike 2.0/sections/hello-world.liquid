@@ -1,0 +1,81 @@
+<section class="mellow-home full-width">
+  <div class="mellow-home__hero">
+    {% if section.settings.hero_image != blank %}
+      {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'mellow-home__hero-image', loading: 'eager' }}
+    {% else %}
+      <div class="mellow-home__placeholder mellow-home__placeholder--hero"></div>
+    {% endif %}
+    <div class="mellow-home__hero-copy">
+      <p class="mellow-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <a class="mellow-button mellow-button--light" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+    </div>
+  </div>
+
+  <div class="mellow-home__intro">
+    <p class="mellow-eyebrow">THE ESSENTIAL EDIT</p>
+    <h2>{{ section.settings.intro_heading }}</h2>
+    <p>{{ section.settings.intro_text }}</p>
+  </div>
+
+  {% assign featured_collection = section.settings.collection %}
+  {% if featured_collection == blank %}
+    {% assign featured_collection = collections.all %}
+  {% endif %}
+  <div class="mellow-home__products">
+    {% for product in featured_collection.products limit: 4 %}
+      <a class="mellow-card" href="{{ product.url }}">
+        <div class="mellow-card__image">
+          {% if product.featured_image %}
+            {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
+          {% else %}
+            <div class="mellow-home__placeholder"></div>
+          {% endif %}
+        </div>
+        <div class="mellow-card__details"><p>{{ product.title }}</p><span>{{ product.price | money }}</span></div>
+      </a>
+    {% else %}
+      {% for item in (1..4) %}
+        <div class="mellow-card"><div class="mellow-card__image"><div class="mellow-home__placeholder"></div></div><div class="mellow-card__details"><p>Signature Piece {{ item }}</p><span>Coming soon</span></div></div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  <div class="mellow-home__campaign">
+    <div class="mellow-home__campaign-image">
+      {% if section.settings.campaign_image != blank %}
+        {{ section.settings.campaign_image | image_url: width: 1600 | image_tag: loading: 'lazy' }}
+      {% else %}<div class="mellow-home__placeholder mellow-home__placeholder--campaign"></div>{% endif %}
+    </div>
+    <div class="mellow-home__campaign-copy"><p class="mellow-eyebrow">MADE TO LIVE IN</p><h2>{{ section.settings.campaign_heading }}</h2><a class="mellow-text-link" href="{{ section.settings.campaign_link | default: routes.all_products_collection_url }}">Shop the collection</a></div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .mellow-home { background: #f7f6f3; color: #1d1b19; }
+  .mellow-home__hero { min-height: min(760px, 76vh); position: relative; background: #c9c1b8; overflow: hidden; }
+  .mellow-home__hero-image, .mellow-home__hero .mellow-home__placeholder { width: 100%; height: 100%; min-height: inherit; object-fit: cover; }
+  .mellow-home__placeholder { background: linear-gradient(135deg, #ded9d2, #b6aaa0); min-height: 360px; }
+  .mellow-home__placeholder--hero { background: linear-gradient(120deg, #6d5c4e, #c9beb0 55%, #857769); }
+  .mellow-home__placeholder--campaign { min-height: 620px; background: linear-gradient(150deg, #b5a397, #67574d); }
+  .mellow-home__hero-copy { position: absolute; bottom: 12%; left: clamp(24px, 7vw, 110px); color: #fff; max-width: 570px; }
+  .mellow-eyebrow { font-size: 11px; letter-spacing: .16em; margin-bottom: 16px; }
+  .mellow-home h1, .mellow-home h2 { font-weight: 400; letter-spacing: -.045em; line-height: .96; }
+  .mellow-home h1 { font-size: clamp(54px, 7vw, 104px); margin-bottom: 28px; }
+  .mellow-home h2 { font-size: clamp(38px, 4.5vw, 68px); }
+  .mellow-button { align-items: center; display: inline-flex; justify-content: center; padding: 15px 28px; font-size: 11px; letter-spacing: .12em; text-decoration: none; text-transform: uppercase; }
+  .mellow-button--light { background: #fff; color: #171514; }
+  .mellow-home__intro { max-width: 780px; padding: 120px 24px 94px; margin: auto; text-align: center; }
+  .mellow-home__intro p:last-child { max-width: 510px; line-height: 1.6; margin: 24px auto 0; color: #625e59; }
+  .mellow-home__products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: #f7f6f3; }
+  .mellow-card { color: inherit; text-decoration: none; background: #f0eeea; }
+  .mellow-card__image { overflow: hidden; aspect-ratio: .74; }
+  .mellow-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+  .mellow-card:hover img { transform: scale(1.025); }.mellow-card__details { display: flex; justify-content: space-between; gap: 16px; padding: 15px 16px 22px; font-size: 12px; }.mellow-card__details span { color: #69635e; white-space: nowrap; }
+  .mellow-home__campaign { display: grid; grid-template-columns: 1.18fr .82fr; align-items: center; margin-top: 130px; background: #e6e1da; }.mellow-home__campaign-image { min-height: 620px; }.mellow-home__campaign-image img { width: 100%; height: 100%; min-height: 620px; object-fit: cover; }.mellow-home__campaign-copy { padding: clamp(42px, 7vw, 120px); }.mellow-text-link { color: inherit; display: inline-block; font-size: 11px; letter-spacing: .12em; margin-top: 35px; padding-bottom: 6px; text-decoration: none; text-transform: uppercase; border-bottom: 1px solid currentColor; }
+  @media (max-width: 720px) { .mellow-home__products { grid-template-columns: repeat(2, 1fr); }.mellow-home__intro { padding: 78px 24px 60px; }.mellow-home__campaign { grid-template-columns: 1fr; margin-top: 75px; }.mellow-home__campaign-image, .mellow-home__campaign-image img { min-height: 460px; }.mellow-home__campaign-copy { padding: 60px 28px; } }
+{% endstylesheet %}
+
+{% schema %}
+{"name":"Mellow home","settings":[{"type":"image_picker","id":"hero_image","label":"Hero image"},{"type":"text","id":"eyebrow","label":"Hero eyebrow","default":"AUTUMN / WINTER 2026"},{"type":"text","id":"heading","label":"Hero heading","default":"The new essential."},{"type":"text","id":"button_label","label":"Hero button","default":"Shop new arrivals"},{"type":"url","id":"button_link","label":"Hero button link"},{"type":"text","id":"intro_heading","label":"Introduction heading","default":"Ease, refined."},{"type":"textarea","id":"intro_text","label":"Introduction text","default":"Elevated essentials designed for the everyday. Soft tailoring, considered details, and a quietly confident point of view."},{"type":"collection","id":"collection","label":"Featured collection"},{"type":"image_picker","id":"campaign_image","label":"Campaign image"},{"type":"text","id":"campaign_heading","label":"Campaign heading","default":"Your uniform, reimagined."},{"type":"url","id":"campaign_link","label":"Campaign link"}],"presets":[{"name":"Mellow home"}]}
+{% endschema %}

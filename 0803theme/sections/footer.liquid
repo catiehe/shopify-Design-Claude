@@ -1,0 +1,41 @@
+<footer class="skim-footer">
+  <div class="skim-footer__inner">
+    <nav class="skim-footer__column" aria-label="{{ section.settings.menu_heading | escape }}">
+      <h2>{{ section.settings.menu_heading | escape }}</h2>
+      {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title | escape }}</a>{% endfor %}
+    </nav>
+    <div class="skim-footer__signup">
+      <h2>{{ section.settings.newsletter_heading | escape }}</h2>
+      <p>{{ section.settings.newsletter_copy | escape }}</p>
+      {% form 'customer', class: 'skim-footer__form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="visually-hidden" for="FooterEmail-{{ section.id }}">{{ 'footer.email' | t }}</label>
+        <input id="FooterEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="{{ 'footer.email_placeholder' | t }}" autocomplete="email" required>
+        <button type="submit" aria-label="{{ 'footer.subscribe' | t }}">→</button>
+        {% if form.posted_successfully? %}<p class="skim-footer__message">{{ 'footer.success' | t }}</p>{% endif %}
+        {{ form.errors | default_errors }}
+      {% endform %}
+      <p class="skim-footer__legal">{{ section.settings.legal_copy }}</p>
+    </div>
+    <nav class="skim-footer__column" aria-label="{{ section.settings.secondary_heading | escape }}">
+      <h2>{{ section.settings.secondary_heading | escape }}</h2>
+      {% for link in section.settings.secondary_menu.links %}<a href="{{ link.url }}">{{ link.title | escape }}</a>{% endfor %}
+    </nav>
+  </div>
+  <p class="skim-footer__copyright">© {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</p>
+</footer>
+
+{% schema %}
+{
+  "name": "t:general.footer",
+  "settings": [
+    { "type": "text", "id": "menu_heading", "label": "First menu heading", "default": "Help" },
+    { "type": "link_list", "id": "menu", "label": "First menu" },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Stay in the know" },
+    { "type": "text", "id": "newsletter_copy", "label": "Newsletter copy", "default": "Be first to discover new drops, special offers, and more." },
+    { "type": "richtext", "id": "legal_copy", "label": "Newsletter legal copy", "default": "<p>By subscribing, you agree to receive marketing emails.</p>" },
+    { "type": "text", "id": "secondary_heading", "label": "Second menu heading", "default": "More" },
+    { "type": "link_list", "id": "secondary_menu", "label": "Second menu" }
+  ]
+}
+{% endschema %}

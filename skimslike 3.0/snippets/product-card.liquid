@@ -17,11 +17,11 @@
     {% endif %}
   </a>
     {% assign normalized_tags = product.tags | join: ',' | downcase %}
-    {% if normalized_tags contains 'new' %}
+    {% if normalized_tags contains 'new color' %}
+      <span class="badge">New Color</span>
+    {% elsif normalized_tags contains 'new' %}
       <span class="badge">New</span>
     {% elsif normalized_tags contains 'best seller' or normalized_tags contains 'best-seller' %}
-      <span class="badge">Best Seller</span>
-    {% else %}
       <span class="badge">Best Seller</span>
     {% endif %}
     <button class="product-card__wishlist" type="button" data-wishlist-button data-product-handle="{{ product.handle | escape }}" aria-label="Save {{ product.title | escape }} to my list" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>

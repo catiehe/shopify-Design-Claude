@@ -1,9 +1,9 @@
 <header class="site-header{% if request.page_type == 'index' %} site-header--overlay{% endif %}">
   <div class="page-width header-row">
-    <button class="menu-toggle" type="button" aria-label="Menu" data-menu-toggle>☰</button>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" data-menu-toggle><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <a class="logo" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name | default: shop.name | escape }} home">
-      <img class="logo__image logo__image--dark" src="{{ 'mello-wool-logo.png' | asset_url }}" alt="{{ settings.brand_name | default: shop.name | escape }}" width="2048" height="344">
-      <img class="logo__image logo__image--light" src="{{ 'mello-wool-logo-white.png' | asset_url }}" alt="" width="2048" height="344" aria-hidden="true">
+      <img class="logo__image logo__image--dark" src="{{ 'mello-wool-logo-transparent-v2.png' | asset_url }}" alt="{{ settings.brand_name | default: shop.name | escape }}" width="2048" height="344">
+      <img class="logo__image logo__image--light" src="{{ 'mello-wool-logo-white-transparent-v2.png' | asset_url }}" alt="" width="2048" height="344" aria-hidden="true">
     </a>
     <nav class="main-nav" data-menu>
       <a href="/collections/womens">Women's</a>
@@ -13,7 +13,7 @@
     </nav>
     <div class="header-actions">
       <a href="{{ routes.search_url }}" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7.5"/><path d="m16.5 16.5 4 4"/></svg></a>
-      <a href="{{ routes.account_url }}" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 21v-2.5a6 6 0 0 1 6-6h3a6 6 0 0 1 6 6V21"/></svg></a>
+      <a class="header-account" href="{{ routes.account_url }}" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 21v-2.5a6 6 0 0 1 6-6h3a6 6 0 0 1 6 6V21"/></svg></a>
       <button class="header-wishlist" type="button" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
       <a class="header-cart" href="{{ routes.cart_url }}" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span data-cart-count>{{ cart.item_count }}</span></a>
     </div>

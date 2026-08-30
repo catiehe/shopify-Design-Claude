@@ -4,11 +4,53 @@
     <div class="collection-subtitle">{% if collection.description != blank %}{{ collection.description }}{% else %}<p>{{ section.settings.fallback_subtitle }}</p>{% endif %}</div>
     <p class="breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span>{{ collection.title }}</p>
   </header>
-  <nav class="collection-filters" aria-label="Collection filters">
-    <button type="button">Sort</button>
-    {% assign filter_names = 'Gender,Size,Band,Cup,Type,Color,Collection,Material,Sleeve length,Inseam' | split: ',' %}
-    {% for filter_name in filter_names %}<button type="button">{{ filter_name }} <span aria-hidden="true">⌄</span></button>{% endfor %}
-  </nav>
+  <form class="collection-filters" action="{{ collection.url }}" method="get" data-collection-filters>
+    <label class="collection-sort">
+      <span>Sort</span>
+      <select name="sort_by" aria-label="Sort products">
+        {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+        {% for option in collection.sort_options %}
+          <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    {% for filter in collection.filters %}
+      {% assign filter_label = filter.label | downcase %}
+      {% assign show_filter = false %}
+      {% case filter_label %}
+        {% when 'color', 'colour', 'size', 'availability', 'price' %}
+          {% assign show_filter = true %}
+      {% endcase %}
+      {% if show_filter %}
+        <details class="collection-filter">
+          <summary>{{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}<span aria-hidden="true">⌄</span></summary>
+          <div class="collection-filter__panel">
+            {% if filter.type == 'price_range' %}
+              <label>Min <input name="{{ filter.min_value.param_name }}" type="number" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" placeholder="0"></label>
+              <label>Max <input name="{{ filter.max_value.param_name }}" type="number" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" placeholder="{{ filter.range_max | money_without_currency }}"></label>
+              <button type="submit">Apply</button>
+            {% else %}
+              {% for value in filter.values %}
+                <label class="collection-filter__value">
+                  <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                  <span>{{ value.label }}</span><small>{{ value.count }}</small>
+                </label>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </details>
+      {% endif %}
+    {% endfor %}
+
+    {% assign has_active_filters = false %}
+    {% for filter in collection.filters %}
+      {% if filter.active_values.size > 0 %}{% assign has_active_filters = true %}{% endif %}
+      {% if filter.min_value.value != blank %}{% assign has_active_filters = true %}{% endif %}
+      {% if filter.max_value.value != blank %}{% assign has_active_filters = true %}{% endif %}
+    {% endfor %}
+    {% if has_active_filters %}<a class="collection-filters__clear" href="{{ collection.url }}?sort_by={{ sort_by }}">Clear all</a>{% endif %}
+  </form>
   <div class="page-width product-grid">{% paginate collection.products by section.settings.products_per_page %}{% for product in collection.products %}{% render 'product-card', product: product %}{% else %}<p>Add products to this collection in Shopify Admin.</p>{% endfor %}{% endpaginate %}</div>
   <div class="collection-load-more">
     <a class="collection-load-more__button" href="{{ collection.url }}?page=2">View More Products</a>
@@ -35,10 +77,24 @@
   #shopify-section-{{ section.id }} .collection-subtitle p{margin:0}
   #shopify-section-{{ section.id }} .breadcrumb{align-items:center;color:var(--ink);display:flex;font-size:20px;gap:6px;margin:16px 0 0}
   #shopify-section-{{ section.id }} .breadcrumb a{color:#929292}
-  #shopify-section-{{ section.id }} .collection-filters{align-items:center;border-bottom:1px solid var(--line);display:flex;gap:38px;min-height:74px;overflow-x:auto;padding:0 47px;scrollbar-width:none;white-space:nowrap}
+  #shopify-section-{{ section.id }} .collection-filters{align-items:center;border-bottom:1px solid var(--line);display:flex;gap:38px;min-height:74px;overflow:visible;padding:0 47px;position:relative;white-space:nowrap;z-index:4}
   #shopify-section-{{ section.id }} .collection-filters::-webkit-scrollbar{display:none}
-  #shopify-section-{{ section.id }} .collection-filters button{align-items:center;background:transparent;border:0;color:var(--ink);cursor:pointer;display:inline-flex;flex:0 0 auto;font-family:var(--font-body-family);font-size:16px;font-weight:500;gap:8px;letter-spacing:.16em;padding:0;text-transform:uppercase}
-  #shopify-section-{{ section.id }} .collection-filters button span{font-size:17px;letter-spacing:0;transform:translateY(-2px)}
+  #shopify-section-{{ section.id }} .collection-sort{align-items:center;display:flex;gap:8px}
+  #shopify-section-{{ section.id }} .collection-sort>span,#shopify-section-{{ section.id }} .collection-filter summary{font-size:16px;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
+  #shopify-section-{{ section.id }} .collection-sort select{background:transparent;border:0;cursor:pointer;font:inherit;max-width:22px;overflow:hidden;text-indent:30px;width:22px}
+  #shopify-section-{{ section.id }} .collection-filter{position:relative}
+  #shopify-section-{{ section.id }} .collection-filter summary{align-items:center;cursor:pointer;display:flex;gap:8px;list-style:none}
+  #shopify-section-{{ section.id }} .collection-filter summary::-webkit-details-marker{display:none}
+  #shopify-section-{{ section.id }} .collection-filter summary span{font-size:17px;letter-spacing:0;transition:transform .2s}
+  #shopify-section-{{ section.id }} .collection-filter[open] summary span{transform:rotate(180deg)}
+  #shopify-section-{{ section.id }} .collection-filter__panel{background:#fff;border:1px solid var(--line);box-shadow:0 8px 24px rgba(0,0,0,.08);display:grid;gap:12px;left:-16px;min-width:240px;padding:18px;position:absolute;top:30px}
+  #shopify-section-{{ section.id }} .collection-filter__value{align-items:center;display:grid;gap:10px;grid-template-columns:auto 1fr auto;letter-spacing:0;text-transform:none}
+  #shopify-section-{{ section.id }} .collection-filter__value input{accent-color:var(--ink);height:16px;width:16px}
+  #shopify-section-{{ section.id }} .collection-filter__value small{color:#777}
+  #shopify-section-{{ section.id }} .collection-filter__panel>label:not(.collection-filter__value){display:grid;gap:5px;font-size:13px}
+  #shopify-section-{{ section.id }} .collection-filter__panel input[type="number"]{border:1px solid var(--line);font:inherit;padding:10px;width:100%}
+  #shopify-section-{{ section.id }} .collection-filter__panel button{background:var(--ink);border:0;color:#fff;cursor:pointer;padding:11px;text-transform:uppercase}
+  #shopify-section-{{ section.id }} .collection-filters__clear{font-size:13px;text-decoration:underline;text-underline-offset:3px}
   #shopify-section-{{ section.id }} .collection-load-more{display:flex;justify-content:center;padding:64px 20px 270px}
   #shopify-section-{{ section.id }} .collection-load-more__button{background:#2c2826;color:#fff;font-size:16px;font-weight:600;letter-spacing:.12em;padding:25px 40px;text-transform:uppercase}
   #shopify-section-{{ section.id }} .recently-viewed{border-top:0}
@@ -51,11 +107,11 @@
   #shopify-section-{{ section.id }} .recently-viewed__track .product-card:last-child{border-right:0}
   #shopify-section-{{ section.id }} .recently-viewed__track .product-card__image{aspect-ratio:1/1;background:#fff}
   #shopify-section-{{ section.id }} .recently-viewed__track .product-card__image img{object-fit:contain}
-  #shopify-section-{{ section.id }} .recently-viewed__track .badge{background:#a87560;font-size:11px;left:0;padding:4px 7px;top:auto;bottom:-30px}
+  #shopify-section-{{ section.id }} .recently-viewed__track .badge{background:var(--badge-blue);font-size:11px;left:0;padding:4px 7px;top:auto;bottom:-30px}
   #shopify-section-{{ section.id }} .recently-viewed__track .product-card__wishlist{background:#fff;border-radius:50%;box-shadow:0 2px 9px rgba(0,0,0,.12);right:0;top:auto;bottom:4px}
   #shopify-section-{{ section.id }} .recently-viewed__track .product-card__wishlist svg{width:18px}
   #shopify-section-{{ section.id }} .recently-viewed__track .product-card__info{padding-top:42px}
-  @media(max-width:900px){#shopify-section-{{ section.id }} .collection-heading{padding:42px 20px 32px}#shopify-section-{{ section.id }} .collection-heading h1{font-size:54px}#shopify-section-{{ section.id }} .collection-subtitle{font-size:18px;margin-top:22px}#shopify-section-{{ section.id }} .breadcrumb{font-size:15px}#shopify-section-{{ section.id }} .collection-filters{gap:26px;padding:0 20px}#shopify-section-{{ section.id }} .collection-filters button{font-size:13px}}
+  @media(max-width:900px){#shopify-section-{{ section.id }} .collection-heading{padding:42px 20px 32px}#shopify-section-{{ section.id }} .collection-heading h1{font-size:54px}#shopify-section-{{ section.id }} .collection-subtitle{font-size:18px;margin-top:22px}#shopify-section-{{ section.id }} .breadcrumb{font-size:15px}#shopify-section-{{ section.id }} .collection-filters{gap:26px;overflow-x:auto;padding:0 20px}#shopify-section-{{ section.id }} .collection-sort>span,#shopify-section-{{ section.id }} .collection-filter summary{font-size:13px}#shopify-section-{{ section.id }} .collection-filter__panel{position:fixed;left:16px;right:16px;top:auto}}
   @media(max-width:900px){#shopify-section-{{ section.id }} .collection-load-more{padding-bottom:140px}#shopify-section-{{ section.id }} .recently-viewed__header{display:flex;justify-content:space-between}#shopify-section-{{ section.id }} .recently-viewed__header h2{font-size:22px}#shopify-section-{{ section.id }} .recently-viewed__track{grid-template-columns:repeat(5,minmax(220px,1fr));overflow-x:auto}}
 {% endstyle %}
 {% schema %}{"name":"Main collection","settings":[{"type":"text","id":"fallback_subtitle","label":"Fallback subtitle","default":"The must-haves all your friends have been telling you about"},{"type":"range","id":"products_per_page","label":"Products per page","min":4,"max":48,"step":4,"default":16}]}{% endschema %}

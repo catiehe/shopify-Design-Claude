@@ -1,0 +1,57 @@
+{% assign first_product = collections.all.products.first %}
+<header class="skim-header" data-header>
+  <div class="skim-announcement">
+    {% if section.settings.announcement_link != blank %}<a href="{{ section.settings.announcement_link }}">{% endif %}{{ section.settings.announcement | escape }}{% if section.settings.announcement_link != blank %}</a>{% endif %}
+  </div>
+  <div class="skim-header__bar page-pad">
+    <button class="skim-header__menu-button" type="button" aria-expanded="false" aria-controls="MobileMenu" data-menu-toggle>{{ 'header.menu' | t }}</button>
+    <a class="skim-header__logo" href="{{ routes.root_url }}">{{ section.settings.brand_name | default: shop.name | escape }}</a>
+    <nav class="skim-header__nav" aria-label="{{ 'header.main_navigation' | t }}">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+      {% else %}
+        <a href="{{ routes.all_products_collection_url }}">New</a>
+        <a href="{{ routes.all_products_collection_url }}">Best Sellers</a>
+        <a href="{{ routes.all_products_collection_url }}">Clothing</a>
+        <a href="{{ routes.all_products_collection_url }}">Bras</a>
+        <a href="{{ routes.all_products_collection_url }}">Underwear</a>
+        <a href="{{ routes.all_products_collection_url }}">Shapewear</a>
+        <a href="{{ routes.all_products_collection_url }}">Mens</a>
+        <a href="{{ routes.all_products_collection_url }}">Accessories</a>
+        <a href="{{ routes.all_products_collection_url }}">Sale</a>
+      {% endfor %}
+    </nav>
+    <div class="skim-header__actions">
+      <a href="{{ routes.search_url }}">{{ 'header.search' | t }}</a>
+      {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">{{ 'header.account' | t }}</a>{% endif %}
+      <a href="{{ routes.cart_url }}" aria-label="{{ 'header.bag_with_count' | t: count: cart.item_count }}">{{ 'header.bag' | t }} <span>({{ cart.item_count }})</span></a>
+    </div>
+  </div>
+  <nav id="MobileMenu" class="skim-header__mobile" aria-label="{{ 'header.mobile_navigation' | t }}" hidden data-mobile-menu>
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}">{{ link.title | escape }}</a>
+    {% else %}
+      <a href="{{ routes.all_products_collection_url }}">Best Sellers</a><a href="{{ routes.all_products_collection_url }}">Clothing</a><a href="{{ routes.all_products_collection_url }}">Underwear</a><a href="{{ routes.all_products_collection_url }}">Sale</a>
+    {% endfor %}
+  </nav>
+  {% if section.settings.show_preview_navigation %}
+    <nav class="skim-module-nav" aria-label="Design preview pages">
+      <a href="{{ routes.root_url }}" aria-current="{% if request.page_type == 'index' %}page{% else %}false{% endif %}">Collection Page</a>
+      <a href="{% if first_product != blank %}{{ first_product.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}">Product Detail</a>
+      <a href="/pages/faqs">FAQ + Help</a>
+    </nav>
+  {% endif %}
+</header>
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "settings": [
+    { "type": "text", "id": "brand_name", "label": "Brand name", "default": "SKIMSLIKE" },
+    { "type": "text", "id": "announcement", "label": "Announcement", "default": "Free Shipping on Domestic Orders $75+" },
+    { "type": "url", "id": "announcement_link", "label": "Announcement link" },
+    { "type": "link_list", "id": "menu", "label": "t:labels.menu" },
+    { "type": "checkbox", "id": "show_preview_navigation", "label": "Show design preview navigation", "default": true }
+  ]
+}
+{% endschema %}

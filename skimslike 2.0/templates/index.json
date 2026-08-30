@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "skim-home",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

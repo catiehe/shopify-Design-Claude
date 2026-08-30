@@ -1,0 +1,77 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+<section class="skim-product" data-product-section>
+  <div class="skim-product__media">
+    {% for media in product.media %}
+      <div class="skim-product__image">
+        {% if media.media_type == 'image' %}
+          {{ media | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '480, 720, 960, 1200, 1600', sizes: '(min-width: 990px) 55vw, 100vw', alt: media.alt | default: product.title }}
+        {% else %}
+          {{ media | media_tag }}
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="skim-product__image">{{ 'product-1' | placeholder_svg_tag }}</div>
+    {% endfor %}
+  </div>
+  <div class="skim-product__summary">
+    <div class="skim-product__summary-inner">
+      {% if product.vendor != blank %}<p class="skim-product__vendor">{{ product.vendor | escape }}</p>{% endif %}
+      <h1>{{ product.title | escape }}</h1>
+      <p class="skim-product__price">{{ current_variant.price | money }}</p>
+      {% if current_variant.compare_at_price > current_variant.price %}<p class="skim-product__compare">{{ current_variant.compare_at_price | money }}</p>{% endif %}
+      {% if section.settings.member_message != blank %}<div class="skim-product__promise">{{ section.settings.member_message }}</div>{% endif %}
+      {% form 'product', product, class: 'skim-product__form' %}
+        <fieldset class="skim-product__variants">
+          <legend>{{ 'products.choose_option' | t }}</legend>
+          <div class="skim-product__variant-grid">
+            {% for variant in product.variants %}
+              <input id="Variant-{{ section.id }}-{{ variant.id }}" type="radio" name="id" value="{{ variant.id }}"{% if variant.id == current_variant.id %} checked{% endif %}{% unless variant.available %} disabled{% endunless %}>
+              <label for="Variant-{{ section.id }}-{{ variant.id }}">{{ variant.title | escape }}{% unless variant.available %}<span>{{ 'products.sold_out' | t }}</span>{% endunless %}</label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <div class="skim-product__quantity">
+          <label for="Quantity-{{ section.id }}">{{ 'products.quantity' | t }}</label>
+          <input id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1">
+        </div>
+        <button class="skim-button skim-button--primary" type="submit"{% unless current_variant.available %} disabled{% endunless %}>
+          {% if current_variant.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}
+        </button>
+        {% if section.settings.show_dynamic_checkout %}{{ form | payment_button }}{% endif %}
+      {% endform %}
+      {% if product.description != blank %}<div class="skim-product__description rte">{{ product.description }}</div>{% endif %}
+      <details><summary>{{ 'products.size_fit' | t }}<span aria-hidden="true">+</span></summary><div class="rte">{{ section.settings.size_copy }}</div></details>
+      <details><summary>{{ 'products.shipping_returns' | t }}<span aria-hidden="true">+</span></summary><div class="rte">{{ section.settings.shipping_copy }}</div></details>
+    </div>
+  </div>
+</section>
+{% if section.settings.recommendation_collection != blank %}
+  <section class="skim-related">
+    <div class="skim-section-heading"><h2>{{ section.settings.recommendation_heading | escape }}</h2></div>
+    <div class="skim-related__grid">
+      {% for recommendation in section.settings.recommendation_collection.products limit: 3 %}
+        {% unless recommendation.id == product.id %}{% render 'product-card', product: recommendation, show_vendor: true, show_quick_add: true %}{% endunless %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+<section class="skim-reviews">
+  <h2>{{ 'products.reviews' | t }}</h2>
+  {% content_for 'blocks' %}
+</section>
+
+{% schema %}
+{
+  "name": "t:general.product",
+  "settings": [
+    { "type": "richtext", "id": "member_message", "label": "Member message", "default": "<p>Free returns for rewards members.</p>" },
+    { "type": "richtext", "id": "size_copy", "label": "Size and fit copy", "default": "<p>Designed for a close, flexible fit. Use the size guide for measurements.</p>" },
+    { "type": "richtext", "id": "shipping_copy", "label": "Shipping and returns copy", "default": "<p>Standard delivery is free on qualifying orders. Returns are accepted within 30 days.</p>" },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": false },
+    { "type": "collection", "id": "recommendation_collection", "label": "Complete the look collection" },
+    { "type": "text", "id": "recommendation_heading", "label": "Recommendation heading", "default": "Complete the look" }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

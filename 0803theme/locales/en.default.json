@@ -1,0 +1,97 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Page not found.",
+    "back_to_shopping": "Back to shopping"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "breadcrumb": "Breadcrumb",
+    "pagination": "Pagination"
+  },
+  "blog": {
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post",
+    "comment_form_title": "Add a comment"
+  },
+  "cart": {
+    "checkout": "Checkout",
+    "title": "Cart",
+    "update": "Update",
+    "remove": "Remove"
+  },
+  "collections": {
+    "title": "Collections",
+    "sort": "Sort",
+    "from": "From",
+    "to": "To",
+    "apply": "Apply",
+    "clear": "Clear",
+    "empty": "No products found"
+  },
+  "customers": {
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "title": "Login"
+    }
+  },
+  "faq": {
+    "categories": "Help categories"
+  },
+  "footer": {
+    "email": "Email address",
+    "email_placeholder": "Your email",
+    "subscribe": "Subscribe",
+    "success": "Thanks for subscribing"
+  },
+  "general": {
+    "home": "Home"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "use_at_checkout": "Use this gift card at checkout"
+  },
+  "header": {
+    "menu": "Menu",
+    "main_navigation": "Main navigation",
+    "mobile_navigation": "Mobile navigation",
+    "shop_all": "Shop all",
+    "search": "Search",
+    "account": "Account",
+    "bag": "Bag",
+    "bag_with_count": "Bag, {{ count }} items"
+  },
+  "password": {
+    "title": "This shop is private",
+    "password": "Password",
+    "enter": "Enter"
+  },
+  "products": {
+    "sold_out": "Sold out",
+    "sale": "Sale",
+    "and_up": "and up",
+    "quick_add": "Quick add",
+    "choose_option": "Choose an option",
+    "quantity": "Quantity",
+    "add_to_bag": "Add to bag",
+    "size_fit": "Size & fit",
+    "shipping_returns": "Shipping & returns",
+    "reviews": "Reviews"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search articles, pages, or products",
+    "submit": "Search",
+    "no_results_html": "No results found for {{ terms }}",
+    "results_for_html": "{{ count }} results found for {{ terms }}"
+  }
+}

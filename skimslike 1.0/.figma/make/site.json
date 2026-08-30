@@ -1,0 +1,10 @@
+{
+  "description": "This sleek e-commerce platform offers stylish and comfortable apparel, catering to fashion-forward individuals seeking quality and trend-driven designs.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

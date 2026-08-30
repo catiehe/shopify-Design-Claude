@@ -38,8 +38,20 @@
             </legend>
             <div class="variant-options__values">
               {% for option_value in option.values %}
+                {% assign swatch_color = option_value.swatch.color %}
+                {% if swatch_color == blank %}
+                  {% assign normalized_color_name = option_value | downcase %}
+                  {% case normalized_color_name %}
+                    {% when 'midnight' %}{% assign swatch_color = '#000000' %}
+                    {% when 'fern' %}{% assign swatch_color = '#14521D' %}
+                    {% when 'umber' %}{% assign swatch_color = '#603429' %}
+                    {% when 'flint blue' %}{% assign swatch_color = '#7A91A9' %}
+                    {% when 'moss tea' %}{% assign swatch_color = '#7E8B58' %}
+                    {% when 'dusty plum' %}{% assign swatch_color = '#8D8998' %}
+                  {% endcase %}
+                {% endif %}
                 <input id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" type="radio" name="options[{{ option.name | escape }}]" value="{{ option_value | escape }}" data-option-position="{{ option.position }}"{% if option_value.selected %} checked{% endif %}{% unless option_value.available %} disabled{% endunless %}>
-                <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"{% if option_name contains 'color' or option_name contains 'colour' %} class="variant-swatch"{% if option_value.swatch.color != blank %} style="--swatch-color:{{ option_value.swatch.color }}"{% endif %}{% endif %}><span class="{% if option_name contains 'color' or option_name contains 'colour' %}visually-hidden{% endif %}">{{ option_value }}</span></label>
+                <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"{% if option_name contains 'color' or option_name contains 'colour' %} class="variant-swatch"{% if swatch_color != blank %} style="--swatch-color:{{ swatch_color }}"{% endif %}{% endif %}><span class="{% if option_name contains 'color' or option_name contains 'colour' %}visually-hidden{% endif %}">{{ option_value }}</span></label>
               {% endfor %}
             </div>
           </fieldset>

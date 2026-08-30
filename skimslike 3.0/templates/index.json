@@ -12,6 +12,7 @@
     "hero": {
       "type": "home-hero",
       "settings": {
+        "image": "shopify://shop_images/Generated_with_Kive.ai_-_kive-image_1_ce49ca5a-9c04-43b3-bfbc-ab267c574490.png",
         "heading_line_1": "Just dropped:",
         "heading_line_2": "Merino Wool daily essentials",
         "text": "Discover fresh shades, returning favorites, and more new arrivals",
@@ -30,7 +31,7 @@
     "brand_story": {
       "type": "home-brand-split",
       "settings": {
-        "image": "",
+        "image": "shopify://shop_images/Generated_with_Kive.ai_-_Blitz_Sana_ib_long_sleeve_pink.png",
         "eyebrow": "Naturally considered",
         "heading_line_1": "Good Wool.",
         "heading_line_2": "Good Care.",
@@ -46,7 +47,6 @@
           "type": "category",
           "settings": {
             "heading": "Women's",
-            "image": "",
             "link": ""
           }
         },
@@ -54,7 +54,6 @@
           "type": "category",
           "settings": {
             "heading": "Men's",
-            "image": "",
             "link": ""
           }
         },
@@ -62,7 +61,6 @@
           "type": "category",
           "settings": {
             "heading": "Travel Essentials",
-            "image": "",
             "link": ""
           }
         },
@@ -70,7 +68,6 @@
           "type": "category",
           "settings": {
             "heading": "Workday Layers",
-            "image": "",
             "link": ""
           }
         }

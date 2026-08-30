@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-collection-filters]').forEach((form) => {
+    form.addEventListener('change', (event) => {
+      if (event.target.matches('select, input[type="checkbox"]')) form.submit();
+    });
+  });
+
   const wishlistKey = 'skimslike-wishlist';
   let wishlist = [];
   try { wishlist = JSON.parse(localStorage.getItem(wishlistKey) || '[]'); } catch (error) { wishlist = []; }
