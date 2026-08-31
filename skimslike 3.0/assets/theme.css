@@ -192,9 +192,8 @@ h1,h2,h3,.h1,.h2,.h3{font-family:var(--font-heading-family);font-weight:800;text
 
 /* Keep the full centered navigation visible on tablets and Retina laptop viewports. */
 @media (min-width:601px) and (max-width:900px){
-  .site-header .header-row{position:relative}
-  .site-header .menu-toggle{display:none}
-  .site-header .main-nav,
+  .template-index .site-header .header-row{position:relative}
+  .template-index .site-header .menu-toggle{display:none}
   .template-index .site-header--overlay .main-nav{
     align-items:center;
     background:transparent;
@@ -210,5 +209,5 @@ h1,h2,h3,.h1,.h2,.h3{font-family:var(--font-heading-family);font-weight:800;text
     transform:translate(-50%,-50%);
     width:auto;
   }
-  .site-header .header-actions{margin-left:auto}
+  .template-index .site-header .header-actions{margin-left:auto}
 }
