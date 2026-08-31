@@ -192,6 +192,7 @@ h1,h2,h3,.h1,.h2,.h3{font-family:var(--font-heading-family);font-weight:800;text
 
 /* Keep the full centered navigation visible on tablets and Retina laptop viewports. */
 @media (min-width:601px) and (max-width:900px){
+  .site-header:not(.site-header--overlay) .logo{margin-left:-26px}
   .template-index .site-header .header-row{position:relative}
   .template-index .site-header .menu-toggle{display:none}
   .template-index .site-header--overlay .main-nav{
