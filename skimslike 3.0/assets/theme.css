@@ -45,6 +45,27 @@ h1,h2,h3,.h1,.h2,.h3{font-family:var(--font-heading-family);font-weight:800;text
 .pdp__media-item{display:none;height:100%;min-height:650px}
 .pdp__media-item.is-active{display:block}
 .pdp__media-item img,.pdp__media-item video,.pdp__media-item model-viewer,.pdp__media-item svg{height:100%;object-fit:cover;object-position:top center;width:100%}
+
+/* Show every product image as a complete gallery instead of hiding all but the first. */
+.pdp__media{
+  align-content:start;
+  display:grid;
+  gap:2px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  overflow:visible;
+}
+.pdp__media-item,
+.pdp__media-item.is-active{
+  aspect-ratio:4/5;
+  display:block;
+  height:auto;
+  min-height:0;
+}
+@media(max-width:600px){
+  .pdp__media{grid-template-columns:1fr}
+  .pdp__media-item,
+  .pdp__media-item.is-active{min-height:0}
+}
 .pdp__zoom,.pdp__wishlist{background:transparent;border:0;color:var(--ink);font-size:25px;margin:0;padding:8px;position:absolute;top:12px;width:auto}
 .pdp__zoom{left:10px}.pdp__wishlist{right:12px}
 .pdp__model-sizing{background:rgba(255,255,255,.9);bottom:14px;font-size:11px;font-weight:600;left:14px;letter-spacing:.06em;padding:8px 10px;position:absolute;text-transform:uppercase}
@@ -144,3 +165,50 @@ h1,h2,h3,.h1,.h2,.h3{font-family:var(--font-heading-family);font-weight:800;text
   .product-card__media .badge{font-size:8px;letter-spacing:.06em;padding:5px 7px}
 }
 .home-hero:before{display:none!important}
+
+/* Keep the homepage navigation white and centered over the hero. */
+@media (min-width:901px){
+  .template-index .site-header--overlay .header-row{position:relative}
+  .template-index .site-header--overlay .main-nav{
+    flex:none;
+    left:50%;
+    position:absolute;
+    transform:translateX(-50%);
+  }
+  .template-index .site-header--overlay .header-actions{margin-left:auto}
+}
+@media (max-width:600px){
+  .template-index .site-header--overlay .main-nav{
+    grid-column:1/-1;
+    grid-row:2;
+    justify-content:center;
+  }
+  .template-index .site-header--overlay .header-actions{
+    align-self:center;
+    grid-column:2;
+    grid-row:1;
+  }
+}
+
+/* Keep the full centered navigation visible on tablets and Retina laptop viewports. */
+@media (min-width:601px) and (max-width:900px){
+  .site-header .header-row{position:relative}
+  .site-header .menu-toggle{display:none}
+  .site-header .main-nav,
+  .template-index .site-header--overlay .main-nav{
+    align-items:center;
+    background:transparent;
+    border:0;
+    display:flex;
+    flex-direction:row;
+    gap:16px;
+    left:50%;
+    padding:0;
+    position:absolute;
+    right:auto;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:auto;
+  }
+  .site-header .header-actions{margin-left:auto}
+}

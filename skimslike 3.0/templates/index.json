@@ -24,8 +24,10 @@
       "type": "featured-collection",
       "settings": {
         "heading": "New Arrivals",
-        "collection": "",
-        "products_to_show": 8
+        "collection": "new-arrivals",
+        "products_to_show": 4,
+        "view_more_label": "View more",
+        "view_more_link": "shopify://collections/mens"
       }
     },
     "brand_story": {
@@ -46,37 +48,23 @@
         "clothing": {
           "type": "category",
           "settings": {
-            "heading": "Women's",
-            "link": ""
+            "image": "shopify://shop_images/GeneratedwithKive.ai-MinimalFashionStudioNevaicontshirtblackcopy_7c65d5fd-cb94-454e-99e8-2e77c5b910a5.png",
+            "heading": "Women's Collection",
+            "link": "shopify://collections/womens"
           }
         },
         "tees": {
           "type": "category",
           "settings": {
-            "heading": "Men's",
-            "link": ""
-          }
-        },
-        "lounge": {
-          "type": "category",
-          "settings": {
-            "heading": "Travel Essentials",
-            "link": ""
-          }
-        },
-        "pajamas": {
-          "type": "category",
-          "settings": {
-            "heading": "Workday Layers",
-            "link": ""
+            "image": "shopify://shop_images/GeneratedwithKive.ai-MinimalFashionStudioEliosameshotsamelightbutdifferentposeandalittlebitdifferentoffacialexpressioniwantthiskindofshotandlightonfaceicontshirtblack_bcd16946-4370-4f40-9c27-7bd411defdcd.png",
+            "heading": "Men's Collection",
+            "link": "shopify://collections/mens"
           }
         }
       },
       "block_order": [
-        "clothing",
         "tees",
-        "lounge",
-        "pajamas"
+        "clothing"
       ],
       "settings": {}
     }

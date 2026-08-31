@@ -1,11 +1,115 @@
-<section class="home-categories">{% for block in section.blocks %}<a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-category" {{ block.shopify_attributes }}>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', alt: block.settings.heading }}{% else %}{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}<h2>{{ block.settings.heading }}</h2></a>{% endfor %}</section>
+<section class="home-categories">{% for block in section.blocks %}<a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-category" {{ block.shopify_attributes }}>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '540, 720, 1000, 1300, 1600', alt: block.settings.heading }}{% else %}{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}<span class="home-category__shade" aria-hidden="true"></span><span class="home-category__content"><h2>{{ block.settings.heading }}</h2>{% if block.settings.text != blank %}<span class="home-category__text">{{ block.settings.text }}</span>{% endif %}<span class="home-category__link">{{ block.settings.link_label | default: 'Shop Now' }}</span></span></a>{% endfor %}</section>
 {% style %}
+  #shopify-section-{{ section.id }} .home-categories {
+    gap: 32px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 32px;
+  }
+  #shopify-section-{{ section.id }} .home-category {
+    aspect-ratio: 1 / 1;
+    color: #fff;
+    display: block;
+    overflow: hidden;
+    position: relative;
+  }
+  #shopify-section-{{ section.id }} .home-category img,
+  #shopify-section-{{ section.id }} .home-category svg {
+    aspect-ratio: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform .5s ease;
+    width: 100%;
+  }
+  #shopify-section-{{ section.id }} .home-category:hover img {
+    transform: scale(1.02);
+  }
+  #shopify-section-{{ section.id }} .home-category__shade {
+    background: linear-gradient(180deg, transparent 38%, rgba(0,0,0,.7) 100%);
+    inset: 0;
+    position: absolute;
+  }
+  #shopify-section-{{ section.id }} .home-category__content {
+    bottom: 42px;
+    display: block;
+    left: 42px;
+    max-width: calc(100% - 84px);
+    position: absolute;
+    z-index: 1;
+  }
   #shopify-section-{{ section.id }} .home-category h2 {
+    font-family: var(--font-heading-family);
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: .015em;
+    line-height: 1.05;
+    margin: 0 0 14px;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .home-category__text {
+    display: block;
     font-family: var(--font-body-family);
-    font-size: 22px;
-    font-weight: 300;
-    letter-spacing: .04em;
-    text-transform: none;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.45;
+    max-width: 600px;
+  }
+  #shopify-section-{{ section.id }} .home-category__link {
+    border-bottom: 2px solid currentColor;
+    display: inline-block;
+    font-family: var(--font-body-family);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 28px;
+    padding-bottom: 3px;
+  }
+  @media (min-width: 1400px) {
+    #shopify-section-{{ section.id }} .home-category__content {
+      bottom: 54px;
+      left: 54px;
+      max-width: calc(100% - 108px);
+    }
+    #shopify-section-{{ section.id }} .home-category h2 { font-size: 48px; }
+    #shopify-section-{{ section.id }} .home-category__text { font-size: 18px; }
+    #shopify-section-{{ section.id }} .home-category__link { font-size: 16px; }
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .home-categories { gap: 16px; padding: 16px; }
+    #shopify-section-{{ section.id }} .home-category__content {
+      bottom: 26px;
+      left: 26px;
+      max-width: calc(100% - 52px);
+    }
+    #shopify-section-{{ section.id }} .home-category h2 { font-size: 30px; margin-bottom: 10px; }
+    #shopify-section-{{ section.id }} .home-category__text { font-size: 13px; }
+    #shopify-section-{{ section.id }} .home-category__link { font-size: 13px; margin-top: 18px; }
+  }
+  @media (max-width: 600px) {
+    #shopify-section-{{ section.id }} .home-categories {
+      gap: 12px;
+      grid-template-columns: 1fr;
+      padding: 12px;
+    }
+    #shopify-section-{{ section.id }} .home-category {
+      aspect-ratio: 4 / 5;
+    }
+    #shopify-section-{{ section.id }} .home-category__content {
+      bottom: 28px;
+      left: 24px;
+      max-width: calc(100% - 48px);
+    }
+    #shopify-section-{{ section.id }} .home-category h2 {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+    #shopify-section-{{ section.id }} .home-category__text {
+      font-size: 14px;
+    }
+    #shopify-section-{{ section.id }} .home-category__link {
+      font-size: 14px;
+      margin-top: 24px;
+    }
   }
 {% endstyle %}
-{% schema %}{"name":"Home category grid","max_blocks":4,"blocks":[{"type":"category","name":"Category","settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"text","id":"heading","label":"Heading","default":"Clothing"},{"type":"url","id":"link","label":"Link"}]}],"presets":[{"name":"Home category grid","blocks":[{"type":"category","settings":{"heading":"Clothing"}},{"type":"category","settings":{"heading":"Tees & tanks"}},{"type":"category","settings":{"heading":"Loungewear"}},{"type":"category","settings":{"heading":"Pajamas"}}]}]}{% endschema %}
+{% schema %}{"name":"Home category grid","max_blocks":4,"blocks":[{"type":"category","name":"Category","settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"text","id":"heading","label":"Heading","default":"Clothing"},{"type":"textarea","id":"text","label":"Description"},{"type":"text","id":"link_label","label":"Link label","default":"Shop Now"},{"type":"url","id":"link","label":"Link"}]}],"presets":[{"name":"Home category grid","blocks":[{"type":"category","settings":{"heading":"Men's Collection"}},{"type":"category","settings":{"heading":"Women's Collection"}}]}]}{% endschema %}
